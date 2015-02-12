@@ -8,12 +8,12 @@ import Data.ByteString (ByteString)
 import qualified Data.ByteString.Char8 as B
 
 toSet :: ByteString -> Set ByteString
-toSet = Set.fromList . B.words . (B.map toLower)
+toSet = Set.fromList . B.words . B.map toLower
 
 toWords :: ByteString -> [ByteString]
 toWords s
     | B.null s  = []
-    | otherwise = (B.inits s) ++ toWords (B.tail s)
+    | otherwise = B.inits s ++ toWords (B.tail s)
 
 validWord :: Set ByteString -> ByteString -> Bool
 validWord dict w = B.length w > 3 && Set.member w dict
@@ -28,4 +28,4 @@ main = do
         cols = B.transpose rows
         wrds = foldr ((++) . toWords) [] (rows ++ cols)
         solutions = filter (validWord dict) wrds `using` parList rseq
-    putStrLn $ B.unpack $ B.unlines $ solutions
+    putStrLn $ B.unpack $ B.unlines solutions
