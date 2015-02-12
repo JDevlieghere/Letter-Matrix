@@ -10,7 +10,7 @@ Compile using optimization and (optionally) support for parallelization.
 ghc -O2 -threaded --make Solver.hs
 ```
 
-Run with the dictionary and input file as command-line argument as illustrated below.
+Run the solver with the dictionary and input file as command-line arguments.
 
 ```shell
 ./Solver dictionary/eng.dic example/example.txt
