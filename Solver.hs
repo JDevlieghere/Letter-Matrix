@@ -15,8 +15,10 @@ toWords s
     | B.null s  = []
     | otherwise = B.inits s ++ toWords (B.tail s)
 
-validWord :: Set ByteString -> ByteString -> Bool
-validWord dict w = B.length w > 3 && Set.member w dict
+solve :: Set ByteString -> [ByteString] -> [ByteString]
+solve dict strs = filter valid wrds
+    where wrds    = foldr ((++) . toWords) [] strs
+          valid w = B.length w > 3 && Set.member w dict
 
 main :: IO ()
 main = do
@@ -26,6 +28,5 @@ main = do
     let dict = toSet dictionary
         rows = (B.lines . B.map toLower) input
         cols = B.transpose rows
-        wrds = foldr ((++) . toWords) [] (rows ++ cols)
-        solutions = filter (validWord dict) wrds `using` parList rseq
+        solutions = solve dict (rows ++ cols) `using` parList rseq
     putStrLn $ B.unpack $ B.unlines solutions
