@@ -1,7 +1,5 @@
 import System.Environment
-import Data.List
 import Data.Char
-import Control.Parallel.Strategies
 import Data.Set (Set)
 import qualified Data.Set as Set
 import Data.ByteString (ByteString)
@@ -28,5 +26,5 @@ main = do
     let dict = toSet dictionary
         rows = (B.lines . B.map toLower) input
         cols = B.transpose rows
-        solutions = solve dict (rows ++ cols) `using` parList rseq
+        solutions = solve dict (rows ++ cols)
     putStrLn $ B.unpack $ B.unlines solutions
